@@ -1,10 +1,16 @@
 require 'board'
+require 'player'
 
 class Game_Engine
-  attr_reader :player, :board
+  attr_reader :player1,
+              :ai,
+              :players,
+              :board
 
   def initialize
-    @player = ENV['USER']
+    @player1 = Player.new(ENV['USER'], "X")
+    @ai = Player.new("HAL", "O")
+    @players = [@player1, @ai]
     @board = Board.new
   end
 

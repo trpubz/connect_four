@@ -14,8 +14,9 @@ describe Game_Engine do
   end
 
   describe '@attributes' do
-    it 'has @player and @board' do
-      expect(@game.player.length).to be >= 1
+    it 'has @players and @board' do
+      expect(@game.players[0].name.length).to be >= 1
+      expect(@game.players[1].name). to eq "HAL"
       expect(@game.board).to be_a Board
     end
   end
