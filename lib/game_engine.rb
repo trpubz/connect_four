@@ -30,7 +30,7 @@ class Game_Engine
     end
   end
   
-  def pick_piece
+  def select_player_piece
     system("echo", X_OR_O_MSG)
     player_token = gets.chomp
     # player_token = "X"
@@ -41,8 +41,8 @@ class Game_Engine
       @player1.token = "O"
       return
     else
-      system("echo", PICK_PIECE_ERR_MSG)
-      pick_piece
+      system("echo", SELECT_PIECE_ERR_MSG)
+      select_player_piece
     end
   end
 
@@ -55,10 +55,19 @@ class Game_Engine
     end
   end
 
-  def place_piece
+  def place_piece # TODO: #take_turn better method name?? should this be helper method inside #take_turn?
     cur_player = count_pieces(@board).odd ? @ai : @player1
     system("echo", "#{cur_player}, you're up! Pick any column, A-G, to place your #{cur_player.token} game piece")
   end
+
+  # TODO def check_winners 
+      # code to check finite array OR
+      # method that can check ver/hor/diag winners
+      # will need to run (while loop or recursion) after 
+      # every player turn. This will stop game from exiting
+      # and automatically switch to next player until
+      # winner determined
+  # end
 
   WELCOME_MSG = "Let's play **** CONNECT FOUR ****
   Connect four of your checkers in a row while preventing your opponent from doing the same.\n
@@ -73,7 +82,7 @@ class Game_Engine
 
   P_OR_Q_ERR_MSG = "Sorry, I didn't understand that selection. press 'p' to play; 'q' to quit:"
 
-  PICK_PIECE_ERR_MSG = "Sorry, I didn't understand that selection."
+  SELECT_PIECE_ERR_MSG = "Sorry, I didn't understand that selection."
 
 end
 
