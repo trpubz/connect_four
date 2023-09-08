@@ -21,6 +21,20 @@ describe Game_Engine do
     end
   end
 
+  describe '#main_menu quitting game' do
+    xit 'handles \'q\'' do
+      allow($stdin).to receive(:gets) {"q"}
+      expect(@game.main_menu).to output(MSG.BYE_MSG).to_stdout
+    end
+  end
+
+  describe '#main_menu bad input' do
+    xit 'handles bad input' do
+      allow($stdin).to receive(:gets).and_return("f", "q")
+      expect(@game.main_menu).to output(MSG.BYE_MSG).to_stdout
+    end
+  end
+
   describe '#start_game' do
     it 'prints a welcome message' do
       expect(@game.start_game).to eq true
