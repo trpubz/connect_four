@@ -1,12 +1,14 @@
 require './lib/board'
 require './lib/player'
 require './lib/msg'
+require './lib/cli'
 
 class Game_Engine
   include MSG
   attr_reader :player1,
               :ai,
               :players,
+              :current_player,
               :board
 
   def initialize
@@ -14,37 +16,89 @@ class Game_Engine
     @ai = Player.new("HAL", "O")
     @players = [@player1, @ai]
     @board = Board.new
-    @cur_player = count_pieces(@board.board).even? ? @player1 : @ai
+    @current_player = @players[0]
   end
 
-  # def main_menu => handle logic to start game
-
   def main_menu
-    system("echo", WELCOME_MSG)
-    # require 'byebug'; byebug
-    play_quit = STDIN.gets.chomp
-    require 'byebug'; byebug
+    puts WELCOME_MSG
+    play_quit = CLI.get_input
     if play_quit == "q"
       abort(BYE_MSG)
     elsif play_quit == "p"
-      system("echo", PLAY_MSG)
-      start_game
+      puts PLAY_MSG
+      play_game
     else
-      system("echo", P_OR_Q_ERR_MSG)
+      puts P_OR_Q_ERR_MSG
       main_menu
     end
   end
 
-  def start_game  # Player has hit 'p'
-    
+  def play_game  # Player has hit 'p'
+    until win_condition do
+      puts @board.display
+      turn_over = false
+      plyr = whos_turn
+      if plyr == @player1
+        until turn_over
+          puts PLAYER_TURN_MSG
+          column = CLI.get_input
+          if valid_input(column)
+            drop_token(column, plyr.token)
+            turn_over = true
+          else
+            puts INPUT_ERR_MSG(column)
+          end
+        end
+      else
+        # commit at turn
+      end
+    end
+    # print victory message
   end
-  # TODO Human Player is always 'X'
-  
+
+  def valid_input(column)
+    columns = %w{A B C D E F G}
+    if columns.include?(column)
+      idx = columns.index(column)
+      # check if board is not full
+      return @board.board[0][idx] == '.'
+    else
+      return false
+    end
+  end
+
+  # returns player object and increments queue
+  def whos_turn
+    plyr = @current_player
+
+    if plyr == @players[0]
+      @current_player = @players[1]
+    else
+      @current_player = @players[0]
+    end
+
+    return plyr
+  end
+
+  def drop_token(column, token)
+    # assign column letter to index
+    # validate column is open
+     # drop the token if open
+    # if not valid, error message
+  end
+
+
+
+  # return true/false
+  def win_condition
+    return true
+  end
+
   def count_pieces(cur_board)
     cur_board.reduce(0) do |count, row|
       row.each do |el|
         el != "." ? count += 1 : count
-      end  
+      end
       count
     end
   end
@@ -59,28 +113,24 @@ class Game_Engine
   end
 
   def place_piece_on_board(selection)
-    system("echo", PLAYER_TURN_MSG)
+    puts PLAYER_TURN_MSG
     return nil if !selection.upcase.include?("A".."G")
     @board.board[selection][0] = @cur_player.token
     require 'pry'; binding.pry
     # re-display board with @board.display after each successful turn
   end
-
-  # TODO def check_winners 
+  # TODO def check_winners
       # code to check finite array OR
       # method that can check ver/hor/diag winners
-      # will need to run (while loop or recursion) after 
+      # will need to run (while loop or recursion) after
       # every player turn. This will stop game from exiting
       # and automatically switch to next player until
       # winner determined
   # end
-
- 
-
 end
 
-session = Game_Engine.new
-session.start_game
+# session = Game_Engine.new
+# session.play_game
 # require 'pry'; binding.pry
 
 
@@ -93,7 +143,7 @@ session.start_game
 # def select_player_piece
   #   system("echo", X_OR_O_MSG)
   #   player_token = gets.chomp
-  #   if player_token == "X" 
+  #   if player_token == "X"
   #     @player1.token = "X"
   #     @ai.token = "O"
   #   elsif player_token == "O"

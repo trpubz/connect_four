@@ -21,23 +21,46 @@ describe Game_Engine do
     end
   end
 
-  describe '#main_menu quitting game' do
+  describe '#main_menu & quitting game' do
     xit 'handles \'q\'' do
       allow($stdin).to receive(:gets) {"q"}
       expect(@game.main_menu).to output(MSG.BYE_MSG).to_stdout
     end
-  end
 
-  describe '#main_menu bad input' do
     xit 'handles bad input' do
       allow($stdin).to receive(:gets).and_return("f", "q")
       expect(@game.main_menu).to output(MSG.BYE_MSG).to_stdout
     end
   end
 
-  describe '#start_game' do
-    it 'prints a welcome message' do
-      expect(@game.start_game).to eq true
+  describe '#valid_input' do
+    it 'validates input when board is empty' do
+      expect(@game.valid_input("A")).to eq true
+      expect(@game.valid_input("Z")).to eq false
+    end
+
+    it 'validates room for token' do
+      # fill up column A index 0
+      @game.board.board.each { |r| r[0] = "X" }
+      # @game.board.display
+      expect(@game.valid_input("A")).to eq false
+    end
+  end
+
+  describe '#whos_turn' do
+    it 'determines the turn' do
+      # always start with human player
+      expect(@game.whos_turn).to eq @game.player1
+      expect(@game.current_player).to eq @game.ai
+      expect(@game.whos_turn).to eq @game.ai
+    end
+  end
+
+  describe '#drop_token' do
+
+
+    it 'updates board with token' do
+
     end
   end
 end
