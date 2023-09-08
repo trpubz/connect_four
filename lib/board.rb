@@ -17,3 +17,4 @@ class Board
     puts %w{A B C D E F G H I J K L M}[0...@columns].join(' ')
   end
 end
+require 'pry'; binding.pry
