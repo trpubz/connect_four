@@ -2,10 +2,10 @@ class Board
   attr_reader :board
 
   def initialize(rows = 6, columns = 7)
-    @rows = rows
-    @columns = columns
+    @num_rows = rows
+    @num_columns = columns
     # Initialize an empty board filled with '.'
-    @board = Array.new(rows) { Array.new(columns, '.') }
+    @board = Array.new(@num_rows) { Array.new(@num_columns, '.') }
   end
 
   def display
@@ -14,6 +14,12 @@ class Board
       puts row.join(' ')
     end
     # Print column numbers for easier reference
-    puts %w{A B C D E F G}[0...@columns].join(' ')
+    puts COLUMNS[0...@num_columns].join(' ')
   end
+
+  def column_to_index(column)
+    COLUMNS.index(column)
+  end
+
+  COLUMNS = %w{A B C D E F G}
 end

@@ -57,9 +57,8 @@ class Game_Engine
   end
 
   def valid_input(column)
-    columns = %w{A B C D E F G}
-    if columns.include?(column)
-      idx = columns.index(column)
+    if @board.COLUMNS.include?(column)
+      idx = @board.column_to_index(column)
       # check if board is not full
       return @board.board[0][idx] == '.'
     else
@@ -81,10 +80,8 @@ class Game_Engine
   end
 
   def drop_token(column, token)
-    # assign column letter to index
-    # validate column is open
-     # drop the token if open
-    # if not valid, error message
+    idx = @board.column_to_index(column)
+    @board.drop_token
   end
 
 

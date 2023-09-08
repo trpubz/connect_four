@@ -57,8 +57,6 @@ describe Game_Engine do
   end
 
   describe '#drop_token' do
-
-
     it 'updates board with token' do
 
     end
