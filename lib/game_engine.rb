@@ -54,10 +54,19 @@ class Game_Engine
       count
     end
   end
-
-  def place_piece # TODO: #take_turn better method name?? should this be helper method inside #take_turn?
+  def take_turn
     cur_player = count_pieces(@board).odd ? @ai : @player1
     system("echo", "#{cur_player}, you're up! Pick any column, A-G, to place your #{cur_player.token} game piece")
+    column_selection = gets.chomp
+    piece_placed = place_piece_on_board(column_selection)
+    while !piece_placed
+      piece_placed = place_piece_on_board
+    end
+  end
+
+  def place_piece_on_board(selection)
+    @board.board[selection]
+    # re-display board with @board.display after each successful turn
   end
 
   # TODO def check_winners 

@@ -14,6 +14,7 @@ class Board
       puts row.join(' ')
     end
     # Print column numbers for easier reference
+    # TODO Should board columns only go to G? (7 columns?? Each column with 6 elements representing vertical column?? e.g., A[0] reps bottom slot of A column)
     puts %w{A B C D E F G H I J K L M}[0...@columns].join(' ')
   end
 end
