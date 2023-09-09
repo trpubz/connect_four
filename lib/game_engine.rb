@@ -22,9 +22,9 @@ class Game_Engine
   def main_menu
     puts WELCOME_MSG
     play_quit = CLI.get_input
-    if play_quit == "q"
+    if play_quit == "Q"
       abort(BYE_MSG)
-    elsif play_quit == "p"
+    elsif play_quit == "P"
       puts PLAY_MSG
       play_game
     else
@@ -50,14 +50,22 @@ class Game_Engine
           end
         end
       else
-        # commit at turn
+        # computer's turn
+        # TODO trash talk
+        until turn_over
+          column = Board::COLUMNS.sample
+          if valid_input(column)
+            drop_token(column, plyr.token)
+            turn_over = true
+          end
+        end
       end
     end
     # print victory message
   end
 
   def valid_input(column)
-    if @board.COLUMNS.include?(column)
+    if Board::COLUMNS.include?(column)
       idx = @board.column_to_index(column)
       # check if board is not full
       return @board.board[0][idx] == '.'
@@ -81,9 +89,8 @@ class Game_Engine
 
   def drop_token(column, token)
     idx = @board.column_to_index(column)
-    @board.drop_token
+    @board.drop_token(column, token)
   end
-
 
 
   # return true/false
@@ -126,8 +133,8 @@ class Game_Engine
   # end
 end
 
-# session = Game_Engine.new
-# session.play_game
+session = Game_Engine.new
+session.main_menu
 # require 'pry'; binding.pry
 
 

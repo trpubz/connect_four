@@ -8,6 +8,16 @@ class Board
     @board = Array.new(@num_rows) { Array.new(@num_columns, '.') }
   end
 
+  def drop_token(column, token)
+    idx = column_to_index(column)
+    @board.reverse_each do |row|
+      if row[idx] == "."
+        row[idx] = token
+        return
+      end
+    end
+  end
+
   def display
     # Loop through each row and print it
     @board.each do |row|
