@@ -36,22 +36,28 @@ class Game_Engine
   def play_game  # Player has hit 'p'
     until win_condition do
       puts @board.display
+      # keep false until valid input => in-range, un-filled column
       turn_over = false
       plyr = whos_turn
+      # if human player
       if plyr == @player1
+        # force user to enter valid input
         until turn_over
+          # only runs once (right after opponent takes turn)
           puts PLAYER_TURN_MSG
           column = CLI.get_input
           if valid_input(column)
             drop_token(column, plyr.token)
             turn_over = true
           else
+            # continue to run until HUMAN user enters valid input
             puts INPUT_ERR_MSG(column)
           end
         end
       else
         # computer's turn
         # TODO trash talk
+        # keep false until computer picks unfilled column (idx always in-range)
         until turn_over
           column = Board::COLUMNS.sample
           if valid_input(column)
@@ -69,8 +75,8 @@ class Game_Engine
       idx = @board.column_to_index(column)
       # check if board is not full
       return @board.board[0][idx] == '.'
-    else
-      return false
+    # else
+    #   return false
     end
   end
 
@@ -90,12 +96,6 @@ class Game_Engine
   def drop_token(column, token)
     idx = @board.column_to_index(column)
     @board.drop_token(column, token)
-  end
-
-
-  # return true/false
-  def win_condition
-    return true
   end
 
   def count_pieces(cur_board)
@@ -123,14 +123,19 @@ class Game_Engine
     require 'pry'; binding.pry
     # re-display board with @board.display after each successful turn
   end
-  # TODO def check_winners
-      # code to check finite array OR
-      # method that can check ver/hor/diag winners
-      # will need to run (while loop or recursion) after
-      # every player turn. This will stop game from exiting
-      # and automatically switch to next player until
-      # winner determined
-  # end
+
+  # return true/false
+  def win_condition
+    return true
+  end
+
+  # TODO: Iteration 3 REQs - Winner or Tie?
+  # #win_condition method to check winner or full board
+  # finite array OR method? while loop or recursion? 
+  # #win_condition triggered by every call to #play_game 
+  # 'next' player can't take turn until win_condition checked
+  # and winner or tie determined.
+
 end
 
 session = Game_Engine.new

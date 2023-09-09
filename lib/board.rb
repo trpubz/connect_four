@@ -2,7 +2,9 @@ class Board
   attr_reader :board
 
   def initialize(rows = 6, columns = 7)
+    # board 'height'
     @num_rows = rows
+    # board 'width'
     @num_columns = columns
     # Initialize an empty board filled with '.'
     @board = Array.new(@num_rows) { Array.new(@num_columns, '.') }

@@ -10,7 +10,9 @@ describe Board do
   describe "#initialize" do
     it "exists and has a board" do
       expect(@board).to be_a Board
+      # columns
       expect(@board.board.size).to eq 6
+      # rows
       expect(@board.board[0].size).to eq 7
     end
   end
@@ -30,7 +32,9 @@ describe Board do
   
   describe '#drop_token' do
     it 'drops token onto board' do
+      expect(@board.board[5][0]).to eq(".")
       @board.drop_token("A", "X")
+      expect(@board.board[5][0]).to eq("X")
       # visual confirmation
       @board.display
     end
