@@ -105,23 +105,6 @@ class Game_Engine
     @board.drop_token(column, token)
   end
 
-  def take_turn
-    system("echo", "#{@cur_player}, you're up! Pick any column, A-G, to place your #{cur_player.token} game piece")
-    column_selection = gets.chomp
-    piece_placed = place_piece_on_board(column_selection)
-    while !piece_placed
-      piece_placed = place_piece_on_board
-    end
-  end
-
-  def place_piece_on_board(selection)
-    puts PLAYER_TURN_MSG
-    return nil if !selection.upcase.include?("A".."G")
-    @board.board[selection][0] = @cur_player.token
-    # re-display board with @board.display after each successful turn
-  end
-
-
   # return true/false
   def win_condition
     winner = false
