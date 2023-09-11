@@ -61,18 +61,18 @@ describe Board do
     it 'checks horizontal direction' do
       @board.drop_token("A", "X")
       @board.drop_token("B", "X")
-      expect(@board.check_direction(5, 0, 1, 0, 'X')).to eq 1
+      expect(@board.check_direction(0, 5, 1, 0, 'X')).to eq 1
     end
 
     it 'checks from last dropped token in reverse direction' do
       %w{A B C D}.each { |slot| @board.drop_token(slot, "X") }
-      expect(@board.check_direction(5, 3, -1, 0, 'X')).to eq 3
+      expect(@board.check_direction(3, 5, -1, 0, 'X')).to eq 3
     end
 
     it 'checks vertical direction up&down' do
       4.times{@board.drop_token("A", "X")}
-      expect(@board.check_direction(5, 0, 0, 1, 'X')).to eq 3
-      expect(@board.check_direction(2, 0, 0, -1, 'X')).to eq 3
+      expect(@board.check_direction(0, 5, 0, 1, 'X')).to eq 3
+      expect(@board.check_direction(0, 2, 0, -1, 'X')).to eq 3
     end
 
     it 'checks diagnal upright/downleft' do
@@ -80,8 +80,8 @@ describe Board do
       @board.board[4] = %w{. X O O . . .}
       @board.board[3] = %w{. . X O . . .}
       @board.board[2] = %w{. . . X . . .}
-      expect(@board.check_direction(5, 0, 1, 1, "X")).to eq 3
-      expect(@board.check_direction(2, 3, -1, -1, "X")).to eq 3
+      expect(@board.check_direction(0, 5, 1, 1, "X")).to eq 3
+      expect(@board.check_direction(3, 2, -1, -1, "X")).to eq 3
     end
 
     it 'checks diagnal upleft/downright' do
@@ -89,15 +89,39 @@ describe Board do
       @board.board[4] = %w{. X O O . . .}
       @board.board[3] = %w{. O X O . . .}
       @board.board[2] = %w{O . . X . . .}
-      expect(@board.check_direction(5, 3, -1, 1, "O")).to eq 3
-      expect(@board.check_direction(2, 0, 1, -1, "O")).to eq 3
+      expect(@board.check_direction(3, 5, -1, 1, "O")).to eq 3
+      expect(@board.check_direction(0, 2, 1, -1, "O")).to eq 3
     end
   end
 
   describe '#check_win' do
     it 'checks wins in the horizontal direction' do
-      %w{A B C D}.each { |slot| @board.drop_token(slot, "X") }
+      x, y = nil, nil
+      %w{A B C D}.each { |slot| x, y = @board.drop_token(slot, "X") }
+      expect(@board.check_win(x, y, "X")).to eq true
+    end
 
+    it 'checks wins in the vertical direction' do
+      x, y = nil, nil
+      4.times{ x, y = @board.drop_token("A", "X") }
+      expect(@board.check_win(x, y, "X")).to eq true
+    end
+
+    it 'checks wins in the diagnoal right direction' do
+      @board.board[5] = %w{X O O O . . .}
+      @board.board[4] = %w{. X O O . . .}
+      @board.board[3] = %w{. . X O . . .}
+      x, y = @board.drop_token("D", "X")
+      expect(@board.check_win(x, y, "X")).to eq true
+    end
+
+    it 'checks wins in the diagnoal left direction' do
+      @board.board[5] = %w{X O O O . . .}
+      @board.board[4] = %w{O X O O . . .}
+      @board.board[3] = %w{O O X O . . .}
+      @board.board[2] = %w{O . . . . . .}
+      x, y = @board.drop_token("A", "O")
+      expect(@board.check_win(x, y, "O")).to eq true
     end
   end
 end

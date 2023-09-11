@@ -41,6 +41,7 @@ class Game_Engine
       # keep false until valid input => in-range, un-filled column
       turn_over = false
       plyr = whos_turn
+      token_x, token_y = nil, nil # returned from #drop_token and passed to #win_condition
       # if human player
       if plyr == @player1
         # force user to enter valid input
@@ -49,7 +50,7 @@ class Game_Engine
           puts PLAYER_TURN_MSG
           column = CLI.get_input
           if valid_input(column)
-            drop_token(column, plyr.token)
+            token_x, token_y = drop_token(column, plyr.token)
             turn_over = true
           else
             # continue to run until HUMAN user enters valid input
@@ -63,17 +64,17 @@ class Game_Engine
         until turn_over
           column = Board::COLUMNS.sample
           if valid_input(column)
-            drop_token(column, plyr.token)
+            token_x, token_y = drop_token(column, plyr.token)
             turn_over = true
           end
         end
       end
     end
-    if board_full?
+    if @board.board_full?
       # print TIE_GAME_MSG
       # call main_menu to run play_quit (should not display WELCOME_MSG. Only 'play' or 'quit' message)
     end
-    if win_condition
+    if @board.check_win(token_x, token_y, plyr.token)
     # print victory message
     end
   end
@@ -105,26 +106,10 @@ class Game_Engine
     @board.drop_token(column, token)
   end
 
-  # return true/false
-  # move logic to Board class?
-  def win_condition
-    winner = false
-    def horizWinner
-      @board.board.each do |row|
-        if row.join("").scan(/X{4}?/) || row.join("").scan(/O{4}?/)
-          winner = true
-          return
-        end
-      end
-    end
-    return winner
-    horizWinner
-  end
-
   # TODO: Iteration 3 REQs - Winner or Tie?
   # #win_condition method to check winner or full board
-  # finite array OR method? while loop or recursion? 
-  # #win_condition triggered by every call to #play_game 
+  # finite array OR method? while loop or recursion?
+  # #win_condition triggered by every call to #play_game
   # 'next' player can't take turn until win_condition checked
   # and winner or tie determined.
 
