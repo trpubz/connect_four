@@ -106,11 +106,12 @@ class Game_Engine
   end
 
   # return true/false
+  # move logic to Board class?
   def win_condition
     winner = false
     def horizWinner
       @board.board.each do |row|
-        if row.join("").scan(/X{4,7}?/) || row.join("").scan(/O{4,7}?/)
+        if row.join("").scan(/X{4}?/) || row.join("").scan(/O{4}?/)
           winner = true
           return
         end

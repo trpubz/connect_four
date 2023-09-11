@@ -37,6 +37,40 @@ class Board
     !@board.flatten.include?(".")
   end
 
+  def check_win(row, column, token)
+    DIRECTIONS.each do |dx, dy|
+      count = 1  # Start with the token just placed
+      
+      # Check one direction
+      count += check_direction(row, column, dx, dy, token)
+      # Check the opposite direction
+      count += check_direction(row, column, -dx, -dy, token)
+
+      return true if count >= 4  # Four or more in a row
+    end
+    false
+  end
+
+  def check_direction(row, column, dx, dy, token)
+    count = 0
+    x, y = row + dx, column + dy
+
+    while x.between?(0, @num_rows - 1) && y.between?(0, @num_columns - 1) && @board[x][y] == token
+      count += 1
+      x += dx
+      y += dy
+    end
+
+    count
+  end
+
 
   COLUMNS = %w{A B C D E F G}
+
+  DIRECTIONS = [
+    [0, 1],  # Horizontal
+    [1, 0],  # Vertical
+    [1, 1],  # Diagonal right
+    [1, -1]  # Diagonal left
+  ]
 end

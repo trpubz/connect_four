@@ -55,4 +55,8 @@ describe Board do
       expect(@board.board_full?).to eq true
     end
   end
+
+  describe '#check_direction' do
+    
+  end
 end
