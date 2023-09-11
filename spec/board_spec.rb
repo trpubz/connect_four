@@ -33,8 +33,10 @@ describe Board do
   describe '#drop_token' do
     it 'drops token onto board' do
       expect(@board.board[5][0]).to eq(".")
-      @board.drop_token("A", "X")
+      expect(@board.drop_token("A", "X")).to eq([0, 5])
       expect(@board.board[5][0]).to eq("X")
+      expect(@board.drop_token("B", "X")).to eq [1, 5]
+      expect(@board.drop_token("A", "X")).to eq [0, 4]
       # visual confirmation
       @board.display
     end
@@ -89,6 +91,13 @@ describe Board do
       @board.board[2] = %w{O . . X . . .}
       expect(@board.check_direction(5, 3, -1, 1, "O")).to eq 3
       expect(@board.check_direction(2, 0, 1, -1, "O")).to eq 3
+    end
+  end
+
+  describe '#check_win' do
+    it 'checks wins in the horizontal direction' do
+      %w{A B C D}.each { |slot| @board.drop_token(slot, "X") }
+
     end
   end
 end

@@ -11,12 +11,14 @@ class Board
   end
 
   def drop_token(column, token)
-    idx = column_to_index(column)
+    col_idx = column_to_index(column)
+    row_idx = @num_rows - 1
     @board.reverse_each do |row|
-      if row[idx] == "."
-        row[idx] = token
-        return
+      if row[col_idx] == "."
+        row[col_idx] = token
+        return col_idx, row_idx
       end
+      row_idx -= 1
     end
   end
 
