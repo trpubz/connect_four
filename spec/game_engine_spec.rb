@@ -55,22 +55,4 @@ describe Game_Engine do
       expect(@game.whos_turn).to eq @game.ai
     end
   end
-
-  # describe '#drop_token' do
-  #   it 'updates board with token' do
-      
-  #   end
-  # end
-
-  describe '#win_condition' do
-    it 'checks four or more of the same piece in each row' do
-      4.times do |idx|
-        @game.board.board[5][idx] = "X"
-      end
-      @board.display
-      @game.win_condition
-      require 'byebug'; byebug
-      # expect(@game.win_condition).to be true
-    end
-  end
 end
