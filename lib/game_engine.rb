@@ -75,7 +75,7 @@ class Game_Engine
       # call main_menu to run play_quit (should not display WELCOME_MSG. Only 'play' or 'quit' message)
     end
     if @board.check_win(token_x, token_y, plyr.token)
-    # print victory message
+      # print victory message
     end
   end
 
