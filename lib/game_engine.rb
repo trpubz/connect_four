@@ -2,6 +2,7 @@ require './lib/board'
 require './lib/player'
 require './lib/msg'
 require './lib/cli'
+require 'byebug'
 
 class Game_Engine
   include MSG
@@ -126,7 +127,18 @@ class Game_Engine
 
   # return true/false
   def win_condition
-    return true
+    winner = false
+    def horizWinner
+      @board.board.each do |row|
+        if row.join("").scan(/X{4,7}?/) || row.join("").scan(/O{4,7}?/)
+          winner = true
+          return
+        end
+      end
+    end
+    return winner
+    byebug
+    horizWinner
   end
 
   # TODO: Iteration 3 REQs - Winner or Tie?
@@ -138,8 +150,8 @@ class Game_Engine
 
 end
 
-session = Game_Engine.new
-session.main_menu
+# session = Game_Engine.new
+# session.main_menu
 # require 'pry'; binding.pry
 
 
