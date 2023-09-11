@@ -121,14 +121,6 @@ class Game_Engine
     # re-display board with @board.display after each successful turn
   end
 
-  def board_full?
-    board_count = @board.reduce(0) do |count, row|
-      row.each do |el|
-        el != "." ? count += 1 : count
-      end
-    end
-    board_count >= 42 ? true : false
-  end
 
   # return true/false
   def win_condition

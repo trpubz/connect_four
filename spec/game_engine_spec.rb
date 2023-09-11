@@ -62,11 +62,6 @@ describe Game_Engine do
   #   end
   # end
 
-  describe '#board_full' do
-    it 'checks to see if no more moves can be made' do
-      # fill board and test if
-    end
-  end
   describe '#win_condition' do
     it 'checks four or more of the same piece in each row' do
       4.times do |idx|

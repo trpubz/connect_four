@@ -33,5 +33,10 @@ class Board
     COLUMNS.index(column)
   end
 
+  def board_full?
+    !@board.flatten.include?(".")
+  end
+
+
   COLUMNS = %w{A B C D E F G}
 end

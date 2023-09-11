@@ -46,4 +46,13 @@ describe Board do
       @board.display
     end
   end
+
+  describe '#board_full' do
+    it 'checks to see if no more moves can be made' do
+      expect(@board.board_full?).to eq false
+      @board.board.map!{ |row| row.map!{ |el| el = "X" } }
+      @board.display
+      expect(@board.board_full?).to eq true
+    end
+  end
 end
