@@ -10,7 +10,8 @@ class Game_Engine
               :ai,
               :players,
               :current_player,
-              :board
+              :board,
+              :piece_count
 
   def initialize
     @player1 = Player.new(ENV['USER'], "X")
@@ -35,7 +36,7 @@ class Game_Engine
   end
 
   def play_game  # Player has hit 'p'
-    until win_condition do
+    until win_condition || board_full
       puts @board.display
       # keep false until valid input => in-range, un-filled column
       turn_over = false
@@ -68,16 +69,21 @@ class Game_Engine
         end
       end
     end
+    if board_full?
+      # print TIE_GAME_MSG
+      # call main_menu to run play_quit (should not display WELCOME_MSG. Only 'play' or 'quit' message)
+    end
+    if win_condition
     # print victory message
+    end
   end
 
   def valid_input(column)
-    if Board::COLUMNS.include?(column)
-      idx = @board.column_to_index(column)
-      # check if board is not full
-      return @board.board[0][idx] == '.'
-    # else
-    #   return false
+    idx = @board.column_to_index(column)
+    if Board::COLUMNS.include?(column) && @board.board[0][idx] == '.'
+      return true
+    else
+      return false
     end
   end
 
@@ -99,15 +105,6 @@ class Game_Engine
     @board.drop_token(column, token)
   end
 
-  def count_pieces(cur_board)
-    cur_board.reduce(0) do |count, row|
-      row.each do |el|
-        el != "." ? count += 1 : count
-      end
-      count
-    end
-  end
-
   def take_turn
     system("echo", "#{@cur_player}, you're up! Pick any column, A-G, to place your #{cur_player.token} game piece")
     column_selection = gets.chomp
@@ -121,8 +118,16 @@ class Game_Engine
     puts PLAYER_TURN_MSG
     return nil if !selection.upcase.include?("A".."G")
     @board.board[selection][0] = @cur_player.token
-    require 'pry'; binding.pry
     # re-display board with @board.display after each successful turn
+  end
+
+  def board_full?
+    board_count = @board.reduce(0) do |count, row|
+      row.each do |el|
+        el != "." ? count += 1 : count
+      end
+    end
+    board_count >= 42 ? true : false
   end
 
   # return true/false
@@ -137,7 +142,6 @@ class Game_Engine
       end
     end
     return winner
-    byebug
     horizWinner
   end
 
