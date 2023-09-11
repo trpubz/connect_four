@@ -40,7 +40,7 @@ class Board
   def check_win(row, column, token)
     DIRECTIONS.each do |dx, dy|
       count = 1  # Start with the token just placed
-      
+
       # Check one direction
       count += check_direction(row, column, dx, dy, token)
       # Check the opposite direction
@@ -53,12 +53,12 @@ class Board
 
   def check_direction(row, column, dx, dy, token)
     count = 0
-    x, y = row + dx, column + dy
-
-    while x.between?(0, @num_rows - 1) && y.between?(0, @num_columns - 1) && @board[x][y] == token
+    x, y = column + dx, row - dy
+    # require 'byebug'; byebug
+    while y.between?(0, @num_rows - 1) && x.between?(0, @num_columns - 1) && @board[y][x] == token
       count += 1
       x += dx
-      y += dy
+      y -= dy
     end
 
     count
