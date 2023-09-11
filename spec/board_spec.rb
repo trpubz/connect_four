@@ -59,13 +59,15 @@ describe Board do
 
   describe '#check_direction' do
     it 'checks horizontal direction' do
-      @board.drop_token("A", "X")
       @board.drop_token("B", "X")
-      expect(@board.check_direction(0, 5, 1, 0, 'X')).to eq 1
+      x, y = @board.drop_token("A", "X")
+      expect(@board.check_direction(x, y, 1, 0, 'X')).to eq 1
     end
 
     it 'checks from last dropped token in reverse direction' do
+      # setup
       %w{A B C D}.each { |slot| @board.drop_token(slot, "X") }
+      # @board.display
       expect(@board.check_direction(3, 5, -1, 0, 'X')).to eq 3
     end
 
@@ -80,17 +82,22 @@ describe Board do
       @board.board[4] = %w{. X O O . . .}
       @board.board[3] = %w{. . X O . . .}
       @board.board[2] = %w{. . . X . . .}
+      # check from lower left traversing diagonal right
       expect(@board.check_direction(0, 5, 1, 1, "X")).to eq 3
+      # check from column D to down & to left
       expect(@board.check_direction(3, 2, -1, -1, "X")).to eq 3
     end
 
     it 'checks diagnal upleft/downright' do
       @board.board[5] = %w{X O O O . . .}
-      @board.board[4] = %w{. X O O . . .}
-      @board.board[3] = %w{. O X O . . .}
+      @board.board[4] = %w{X X . O . . .}
+      @board.board[3] = %w{X O . O . . .}
       @board.board[2] = %w{O . . X . . .}
-      expect(@board.check_direction(3, 5, -1, 1, "O")).to eq 3
-      expect(@board.check_direction(0, 2, 1, -1, "O")).to eq 3
+      # drop into column C to complete 4 connected
+      x, y = @board.drop_token("C", "O")
+      @board.display
+      expect(@board.check_direction(x, y, -1, 1, "O")).to eq 2
+      expect(@board.check_direction(x, y, 1, -1, "O")).to eq 1
     end
   end
 
@@ -121,6 +128,17 @@ describe Board do
       @board.board[3] = %w{O O X O . . .}
       @board.board[2] = %w{O . . . . . .}
       x, y = @board.drop_token("A", "O")
+      expect(@board.check_win(x, y, "O")).to eq true
+    end
+
+    it 'checks win if token dropped in middle of connection' do
+      @board.board[5] = %w{X O O O . . .}
+      @board.board[4] = %w{X X . O . . .}
+      @board.board[3] = %w{X O . O . . .}
+      @board.board[2] = %w{O . . X . . .}
+      # drop into column C to complete 4 connected
+      x, y = @board.drop_token("C", "O")
+      @board.display
       expect(@board.check_win(x, y, "O")).to eq true
     end
   end

@@ -10,6 +10,7 @@ class Board
     @board = Array.new(@num_rows) { Array.new(@num_columns, '.') }
   end
 
+  # return x, y coordinates
   def drop_token(column, token)
     col_idx = column_to_index(column)
     row_idx = @num_rows - 1
@@ -56,7 +57,7 @@ class Board
   def check_direction(column, row, dx, dy, token)
     count = 0
     x, y = column + dx, row - dy
-    # require 'byebug'; byebug
+
     while y.between?(0, @num_rows - 1) && x.between?(0, @num_columns - 1) && @board[y][x] == token
       count += 1
       x += dx
