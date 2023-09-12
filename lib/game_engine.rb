@@ -111,35 +111,7 @@ class Game_Engine
     idx = @board.column_to_index(column)
     @board.drop_token(column, token)
   end
-
-  # TODO: Iteration 3 REQs - Winner or Tie?
-  # #win_condition method to check winner or full board
-  # finite array OR method? while loop or recursion?
-  # #win_condition triggered by every call to #play_game
-  # 'next' player can't take turn until win_condition checked
-  # and winner or tie determined.
-
 end
 
 # session = Game_Engine.new
 # session.main_menu
-
-# require 'pry'; binding.pry
-
-
-# def select_player_piece
-  #   system("echo", X_OR_O_MSG)
-  #   player_token = gets.chomp
-  #   if player_token == "X"
-  #     @player1.token = "X"
-  #     @ai.token = "O"
-  #   elsif player_token == "O"
-  #     @player1.token = "O"
-  #     @ai.token = "X"
-  #   else
-  #     system("echo", SELECT_PIECE_ERR_MSG)
-  #     select_player_piece
-  #   end
-  # end
-# session = Game_Engine.new
-# session.play_game
