@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Game_Engine do
+describe GameEngine do
   before(:each) do
     @game = Game_Engine.new
   end
