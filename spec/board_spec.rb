@@ -9,7 +9,7 @@ describe Board do
 
   describe "#initialize" do
     it "exists and has a board" do
-      expect(@board).to be_a Board
+      expect(@board).to be_xa Board
       # columns
       expect(@board.board.size).to eq 6
       # rows
@@ -20,7 +20,7 @@ describe Board do
   describe '#display' do
     it 'prints the board with col designators' do
       @board.display
-      # visually confirm 6x7 board with '.'
+      # => visually confirm 6x7 board with '.'
     end
   end
 
@@ -37,14 +37,14 @@ describe Board do
       expect(@board.board[5][0]).to eq("X")
       expect(@board.drop_token("B", "X")).to eq [1, 5]
       expect(@board.drop_token("A", "X")).to eq [0, 4]
-      # visual confirmation
+      # => visual confirmation
       @board.display
     end
 
     it 'drops token onto token' do
       @board.board[5][0] = "X"
       @board.drop_token("A", "X")
-      # visual confirmation
+      # => visual confirmation
       @board.display
     end
   end
@@ -67,7 +67,6 @@ describe Board do
     it 'checks from last dropped token in reverse direction' do
       # setup
       %w{A B C D}.each { |slot| @board.drop_token(slot, "X") }
-      # @board.display
       expect(@board.check_direction(3, 5, -1, 0, 'X')).to eq 3
     end
 
@@ -95,7 +94,6 @@ describe Board do
       @board.board[2] = %w{O . . X . . .}
       # drop into column C to complete 4 connected
       x, y = @board.drop_token("C", "O")
-      @board.display
       expect(@board.check_direction(x, y, -1, 1, "O")).to eq 2
       expect(@board.check_direction(x, y, 1, -1, "O")).to eq 1
     end
@@ -138,7 +136,6 @@ describe Board do
       @board.board[2] = %w{O . . X . . .}
       # drop into column C to complete 4 connected
       x, y = @board.drop_token("C", "O")
-      @board.display
       expect(@board.check_win(x, y, "O")).to eq true
     end
   end

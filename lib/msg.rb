@@ -13,7 +13,13 @@ module MSG
 
   TIE_GAME_MSG = "The board is full!! It's a draw!"
 
-  VICTORY_MSG = "Hot Dog, we have a Winner!"
+  def VICTORY_MSG(plyr_name)
+    if plyr_name == "HAL"
+      "HAL won!! You just lost to an unliving being!! Boom!!"
+    else
+      "#Hot Dog, we have a Winner! Congratulations #{plyr_name}!!!"
+    end
+  end
 
   def INPUT_ERR_MSG(input)
     "#{input} is an invalid selection"

@@ -38,9 +38,8 @@ class Game_Engine
   end
 
   def play_game  # Player has hit 'p'
-    winner = false
-    is_draw = false
-    until winner || is_draw
+    game_over = false
+    until game_over
       puts @board.display
       # keep false until valid input => in-range, un-filled column
       turn_over = false
@@ -73,16 +72,16 @@ class Game_Engine
           end
         end
       end
-      if win_condition(token_x, token_y, plyr.token)
+      if @board.check_win(token_x, token_y, plyr.token)
         puts @board.display
-        puts "#{VICTORY_MSG} Congratulations, player #{plyr.token}!"
-        winner = true
+        puts "#{VICTORY_MSG(plyr.name)}"
+        game_over = true
         main_menu
       end
-      if board_full?
+      if @board.board_full?
         puts @board.display
         puts TIE_GAME_MSG
-        is_draw = true
+        game_over = true
         main_menu
       end
     end
@@ -113,16 +112,6 @@ class Game_Engine
     @board.drop_token(column, token)
   end
 
-  def win_condition(token_x, token_y, plyr_token)
-    return true if @board.check_win(token_x, token_y, plyr_token)
-    false
-  end
-
-  def board_full?
-    return true if @board.board_full?
-    false
-  end
-
   # TODO: Iteration 3 REQs - Winner or Tie?
   # #win_condition method to check winner or full board
   # finite array OR method? while loop or recursion?
@@ -136,12 +125,6 @@ end
 # session.main_menu
 
 # require 'pry'; binding.pry
-
-
-
-
-
-
 
 
 # def select_player_piece
@@ -158,3 +141,5 @@ end
   #     select_player_piece
   #   end
   # end
+# session = Game_Engine.new
+# session.play_game
