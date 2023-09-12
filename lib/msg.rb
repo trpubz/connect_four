@@ -5,11 +5,15 @@ module MSG
 
   PLAY_MSG = "#{ENV["USER"]} says we're playing Connect Four!!"
 
-  BYE_MSG = "I hate goodbyes, #{ENV["USER"]}!! Hope you'll play Connect Four again soon!"
+  BYE_MSG = "I hate goodbyes, #{ENV["USER"]}!! I hope you'll play Connect Four with me again soon!"
 
   P_OR_Q_ERR_MSG = "Sorry, I didn't understand that selection. press 'p' to play; 'q' to quit:"
 
   PLAYER_TURN_MSG = "Choose where you want to drop your token"
+
+  TIE_GAME_MSG = "The board is full!! It's a draw!"
+
+  VICTORY_MSG = "Hot Dog, we have a Winner!"
 
   def INPUT_ERR_MSG(input)
     "#{input} is an invalid selection"

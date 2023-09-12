@@ -28,6 +28,8 @@ class Game_Engine
       abort(BYE_MSG)
     elsif play_quit == "P"
       puts PLAY_MSG
+      @board = Board.new
+      @current_player = @players[0]
       play_game
     else
       puts P_OR_Q_ERR_MSG
@@ -36,7 +38,9 @@ class Game_Engine
   end
 
   def play_game  # Player has hit 'p'
-    until win_condition || board_full
+    winner = false
+    is_draw = false
+    until winner || is_draw
       puts @board.display
       # keep false until valid input => in-range, un-filled column
       turn_over = false
@@ -69,13 +73,18 @@ class Game_Engine
           end
         end
       end
-    end
-    if @board.board_full?
-      # print TIE_GAME_MSG
-      # call main_menu to run play_quit (should not display WELCOME_MSG. Only 'play' or 'quit' message)
-    end
-    if @board.check_win(token_x, token_y, plyr.token)
-      # print victory message
+      if win_condition(token_x, token_y, plyr.token)
+        puts @board.display
+        puts "#{VICTORY_MSG} Congratulations, player #{plyr.token}!"
+        winner = true
+        main_menu
+      end
+      if board_full?
+        puts @board.display
+        puts TIE_GAME_MSG
+        is_draw = true
+        main_menu
+      end
     end
   end
 
@@ -91,19 +100,27 @@ class Game_Engine
   # returns player object and increments queue
   def whos_turn
     plyr = @current_player
-
     if plyr == @players[0]
       @current_player = @players[1]
     else
       @current_player = @players[0]
     end
-
     return plyr
   end
 
   def drop_token(column, token)
     idx = @board.column_to_index(column)
     @board.drop_token(column, token)
+  end
+
+  def win_condition(token_x, token_y, plyr_token)
+    return true if @board.check_win(token_x, token_y, plyr_token)
+    false
+  end
+
+  def board_full?
+    return true if @board.board_full?
+    false
   end
 
   # TODO: Iteration 3 REQs - Winner or Tie?
@@ -115,8 +132,9 @@ class Game_Engine
 
 end
 
-# session = Game_Engine.new
-# session.main_menu
+session = Game_Engine.new
+session.main_menu
+
 # require 'pry'; binding.pry
 
 

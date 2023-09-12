@@ -55,4 +55,16 @@ describe Game_Engine do
       expect(@game.whos_turn).to eq @game.ai
     end
   end
+
+  describe 'game over' do
+    it 'can end in a tie' do
+      @game.board.board[5] = %w{O O O X X O O}
+      @game.board.board[4] = %w{O X O O X O O}
+      @game.board.board[3] = %w{O O X O O X X}
+      @game.board.board[2] = %w{X X O X X X O}
+      @game.board.board[1] = %w{O X O X O X O}
+    end
+  end
+
+  
 end
