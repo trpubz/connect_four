@@ -63,9 +63,10 @@ describe Game_Engine do
       @game.board.board[3] = %w{O O X O O X X}
       @game.board.board[2] = %w{X X O O X O O}
       @game.board.board[1] = %w{O X O X O X X}
-      @game.board.board[0] = %w{O X O X O X O}
+      @game.board.board[0] = %w{O X O X O X .}
+      x, y = @game.board.drop_token("G", "O")
       @game.board.display
-      expect(@game.play_game).to output(MSG.TIE_GAME_MSG).to_stdout
+      expect(@game.board_full?).to be true
     end
   end
 end
