@@ -4,7 +4,7 @@ require './lib/msg'
 require './lib/cli'
 require 'byebug'
 
-class Game_Engine
+class GameEngine
   include MSG
   attr_reader :player1,
               :ai,
@@ -121,7 +121,7 @@ class Game_Engine
 
 end
 
-# session = Game_Engine.new
+# session = GameEngine.new
 # session.main_menu
 
 # require 'pry'; binding.pry
@@ -141,5 +141,3 @@ end
   #     select_player_piece
   #   end
   # end
-# session = Game_Engine.new
-# session.play_game
