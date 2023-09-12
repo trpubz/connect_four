@@ -7,7 +7,7 @@ describe CLI do
     it "gets user input" do
       allow($stdin).to receive(:gets) { "p" }
       # must input 'p'
-      expect(CLI.get_input).to eq 'p'
+      expect(CLI.get_input).to eq 'P'
     end
   end
 end

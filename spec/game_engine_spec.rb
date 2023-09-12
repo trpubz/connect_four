@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-# frozen_string_literal: true
-
 describe Game_Engine do
   before(:each) do
     @game = Game_Engine.new
@@ -40,25 +38,16 @@ describe Game_Engine do
     end
 
     it 'validates room for token' do
-      # fill up column A index 0
       @game.board.board.each { |r| r[0] = "X" }
-      # @game.board.display
       expect(@game.valid_input("A")).to eq false
     end
   end
 
   describe '#whos_turn' do
     it 'determines the turn' do
-      # always start with human player
       expect(@game.whos_turn).to eq @game.player1
       expect(@game.current_player).to eq @game.ai
       expect(@game.whos_turn).to eq @game.ai
-    end
-  end
-
-  describe '#drop_token' do
-    it 'updates board with token' do
-
     end
   end
 end
