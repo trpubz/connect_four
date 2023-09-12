@@ -55,16 +55,17 @@ describe Game_Engine do
       expect(@game.whos_turn).to eq @game.ai
     end
   end
-
+  # TODO Finish test to ensure Winner! or Draw! messages are displayed
   describe 'game over' do
     it 'can end in a tie' do
-      @game.board.board[5] = %w{O O O X X O O}
+      @game.board.board[5] = %w{O O X X X O O}
       @game.board.board[4] = %w{O X O O X O O}
       @game.board.board[3] = %w{O O X O O X X}
-      @game.board.board[2] = %w{X X O X X X O}
-      @game.board.board[1] = %w{O X O X O X O}
+      @game.board.board[2] = %w{X X O O X O O}
+      @game.board.board[1] = %w{O X O X O X X}
+      @game.board.board[0] = %w{O X O X O X O}
+      @game.board.display
+      expect(@game.play_game).to output(MSG.TIE_GAME_MSG).to_stdout
     end
   end
-
-  
 end

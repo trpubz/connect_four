@@ -132,8 +132,8 @@ class Game_Engine
 
 end
 
-session = Game_Engine.new
-session.main_menu
+# session = Game_Engine.new
+# session.main_menu
 
 # require 'pry'; binding.pry
 
