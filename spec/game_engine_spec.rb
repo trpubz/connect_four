@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe GameEngine do
   before(:each) do
-    @game = Game_Engine.new
+    @game = GameEngine.new
   end
 
   describe "#initialize" do
     it "exists" do
-      expect(@game).to be_a(Game_Engine)
+      expect(@game).to be_a(GameEngine)
     end
   end
 

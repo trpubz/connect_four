@@ -9,7 +9,7 @@ describe Board do
 
   describe "#initialize" do
     it "exists and has a board" do
-      expect(@board).to be_xa Board
+      expect(@board).to be_a Board
       # columns
       expect(@board.board.size).to eq 6
       # rows

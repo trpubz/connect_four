@@ -1,14 +1,12 @@
-require './lib/game_engine'
+require 'game_engine'
 
 class ConnectFour
-  def initialize(game_engine)
-    @game_engine = game_engine
+
+  def initialize
+    @game_engine = GameEngine.new
   end
 
   def start
     @game_engine.main_menu
   end
 end
-
-game_session = ConnectFour.new
-game_session.start
