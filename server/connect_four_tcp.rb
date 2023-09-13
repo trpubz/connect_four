@@ -81,7 +81,7 @@ loop do
 
   when request_line.include?('/status')
     requester = params(request_line, "player")
-    if requester != active_player
+    if requester != active_player && active_player != nil
       send_response(connection, "#{column}")
     else
       send_response(connection, "patience please")
