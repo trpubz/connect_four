@@ -87,5 +87,3 @@ class ConnectFour
   end
 end
 
-game = ConnectFour.new
-game.main_menu
