@@ -94,6 +94,7 @@ class MPGameEngine
           11.times do
             puts WAITING_FOR_PLYR_MSG(plyr.name)
             response = `curl -s "#{P2P_IP}/status?player=#{@player1.name}"`.chomp
+            # require 'pry'; binding.pry
             unless response.include?("patience")  # unless this fails => response == <valid letter>
               token_x, token_y = drop_token(response, plyr.token)
               turn_over = true
@@ -116,6 +117,7 @@ class MPGameEngine
         game_over = true
       end
     end
+    sleep 1.6
     # send /reset command to server to clear out stored variables
     `curl -s "#{P2P_IP}/reset"`
   end
