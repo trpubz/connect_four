@@ -57,6 +57,8 @@ class ConnectFour
   end
 
   def loiter
+    # ensure server has clean variables
+    `curl -s "#{P2P_IP}/reset"`
     # make initial curl request
     username = ENV['USER']
     foe = ""
@@ -86,4 +88,3 @@ class ConnectFour
     LOADER_MSG(3)  # wait 3 seconds
   end
 end
-
