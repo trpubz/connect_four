@@ -10,4 +10,11 @@ describe CLI do
       expect(CLI.get_input).to eq 'P'
     end
   end
+
+  describe '#clear' do
+    it 'clears the terminal' do
+      allow($stdin).to receive(:gets) { "p" }
+      expect(CLI.clear).to eq true
+    end
+  end
 end

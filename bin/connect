@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require 'connect_four'
 
-puts ConnectFour.new.start
+ConnectFour.new.main_menu

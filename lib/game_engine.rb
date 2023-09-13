@@ -1,11 +1,11 @@
-require 'board'
-require 'player'
-require 'msg'
-require 'cli'
-require 'byebug'
+require_relative 'board'
+require_relative 'player'
+require_relative 'msg'
+require_relative 'cli'
 
 class GameEngine
   include MSG
+
   attr_reader :player1,
               :ai,
               :players,
@@ -21,29 +21,13 @@ class GameEngine
     @current_player = @players[0]
   end
 
-  def main_menu
-    puts WELCOME_MSG
-    play_quit = CLI.get_input
-    if play_quit == "Q"
-      abort(BYE_MSG)
-    elsif play_quit == "P"
-      puts PLAY_MSG
-      @board = Board.new
-      @current_player = @players[0]
-      play_game
-    else
-      puts P_OR_Q_ERR_MSG
-      main_menu
-    end
-  end
-
   def play_game  # Player has hit 'p'
     game_over = false
     until game_over
       puts @board.display
       # keep false until valid input => in-range, un-filled column
       turn_over = false
-      plyr = whos_turn
+      plyr = whose_turn
       token_x, token_y = nil, nil # returned from #drop_token and passed to #win_condition
       # if human player
       if plyr == @player1
@@ -76,13 +60,11 @@ class GameEngine
         puts @board.display
         puts "#{VICTORY_MSG(plyr.name)}"
         game_over = true
-        main_menu
       end
       if @board.board_full?
         puts @board.display
         puts TIE_GAME_MSG
         game_over = true
-        main_menu
       end
     end
   end
@@ -97,7 +79,7 @@ class GameEngine
   end
 
   # returns player object and increments queue
-  def whos_turn
+  def whose_turn
     plyr = @current_player
     if plyr == @players[0]
       @current_player = @players[1]
@@ -111,33 +93,7 @@ class GameEngine
     idx = @board.column_to_index(column)
     @board.drop_token(column, token)
   end
-
-  # TODO: Iteration 3 REQs - Winner or Tie?
-  # #win_condition method to check winner or full board
-  # finite array OR method? while loop or recursion?
-  # #win_condition triggered by every call to #play_game
-  # 'next' player can't take turn until win_condition checked
-  # and winner or tie determined.
-
 end
 
 # session = GameEngine.new
 # session.main_menu
-
-# require 'pry'; binding.pry
-
-
-# def select_player_piece
-  #   system("echo", X_OR_O_MSG)
-  #   player_token = gets.chomp
-  #   if player_token == "X"
-  #     @player1.token = "X"
-  #     @ai.token = "O"
-  #   elsif player_token == "O"
-  #     @player1.token = "O"
-  #     @ai.token = "X"
-  #   else
-  #     system("echo", SELECT_PIECE_ERR_MSG)
-  #     select_player_piece
-  #   end
-  # end
