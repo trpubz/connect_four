@@ -1,4 +1,6 @@
 module MSG
+  ONEPLAYER_TWOPLAYER = "1P or 2P"
+  
   WELCOME_MSG = "Let's play **** CONNECT FOUR ****
   Connect four of your checkers in a row while preventing your opponent from doing the same.\n
   press 'p' to play; 'q' to quit:"
