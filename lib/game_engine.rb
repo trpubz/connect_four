@@ -60,13 +60,11 @@ class GameEngine
         puts @board.display
         puts "#{VICTORY_MSG(plyr.name)}"
         game_over = true
-        main_menu
       end
       if @board.board_full?
         puts @board.display
         puts TIE_GAME_MSG
         game_over = true
-        main_menu
       end
     end
   end

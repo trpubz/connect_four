@@ -35,8 +35,10 @@ class ConnectFour
     # game_mode = "2P" # testing
     if game_mode == "1P"
       @game_engine = GameEngine.new
+      self.start
     elsif game_mode == "2P"
       @game_engine = MPGameEngine.new
+      self.start
     else
       puts INPUT_ERR_MSG(game_mode)
       set_game_engine
@@ -87,4 +89,3 @@ end
 
 game = ConnectFour.new
 game.main_menu
-game.start
