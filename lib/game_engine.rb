@@ -1,7 +1,7 @@
-require './lib/board'
-require './lib/player'
-require './lib/msg'
-require './lib/cli'
+require 'board'
+require 'player'
+require 'msg'
+require 'cli'
 require 'byebug'
 
 class GameEngine
