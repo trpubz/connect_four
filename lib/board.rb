@@ -16,11 +16,33 @@ class Board
     row_idx = @num_rows - 1
     @board.reverse_each do |row|
       if row[col_idx] == "."
+        # animate dropping of token before return
+        self.animate_token(col_idx, row_idx, token)
         row[col_idx] = token
         return col_idx, row_idx
       end
       row_idx -= 1
     end
+  end
+
+  def animate_token(col_idx, row_idx, token)
+    row_idx.times do |i|
+      sleep 0.77
+      CLI.clear
+      @board.each_with_index do |row, idx|
+        pseudo_row = row.dup
+        if idx == i
+          pseudo_row[col_idx] = token
+          puts pseudo_row.join(' ')
+        else
+          puts row.join(' ')
+        end
+      end
+      # Print column numbers for easier reference
+      puts COLUMNS[0...@num_columns].join(' ')
+    end
+    sleep 0.77
+    CLI.clear
   end
 
   def display

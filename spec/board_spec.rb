@@ -17,6 +17,24 @@ describe Board do
     end
   end
 
+  describe '#animate_token' do
+    it 'animates the dropping of the token' do
+      @board.animate_token(0, 5, "X")
+      @board.board[5][0] = "X"
+      @board.display
+    end
+
+    it 'animates when the board has other tokens' do
+      @board.board[5] = %w{X O O O . . .}
+      @board.board[4] = %w{. X O O . . .}
+      @board.board[3] = %w{. . X O . . .}
+      @board.animate_token(3, 2, "X")
+      @board.board[2][3] = "X"
+      @board.display
+    end
+
+  end
+
   describe '#display' do
     it 'prints the board with col designators' do
       @board.display
