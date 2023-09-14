@@ -1,13 +1,13 @@
 module MSG
   ONEPLAYER_TWOPLAYER = "1P || 2P"
-  
+
   WELCOME_MSG = "Let's play **** CONNECT FOUR ****
   Connect four of your checkers in a row while preventing your opponent from doing the same.\n
   press 'p' to play; 'q' to quit:"
 
   PLAY_MSG = "#{ENV["USER"]} says we're playing Connect Four!!"
 
-  BYE_MSG = "I hate goodbyes, #{ENV["USER"]}!! I hope you'll play Connect Four with me again soon!"
+  BYE_MSG = "Sucka’s only see what’s in front of them while real game playa’s see the whole board, – 777\nDeuces!"
 
   MP_BYE_MSG = "If you want to play again, rerun the script. Goodbye!"
 

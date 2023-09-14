@@ -86,3 +86,5 @@ class ConnectFour
     LOADER_MSG(3)  # wait 3 seconds
   end
 end
+
+# ConnectFour.new.main_menu

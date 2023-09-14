@@ -4,10 +4,10 @@ Connect Four is a classic board game where players take turns trying to create a
 ## Installation
 1. download repo
 1. inside of repo root directory
-    1. run `gem build connect_four.gemspec`
-    1. run `gem install connect_four`
+    1. run `gem build connect_cuatro.gemspec`
+    1. run `gem install connect_cuatro`
 1. from anywhere on machine
-    1. run `connect`
+    1. run `connect_cuatro`
 
 ## P2P Considerations
 - Ruby Code
