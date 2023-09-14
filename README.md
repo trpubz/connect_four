@@ -1,6 +1,14 @@
 # connect_four
 Connect Four is a classic board game where players take turns trying to create a line of four of their own pieces without being blocked by their opponent.
 
+## Installation
+1. download repo
+1. inside of repo root directory
+    1. run `gem build connect_cuatro.gemspec`
+    1. run `gem install connect_cuatro`
+1. from anywhere on machine
+    1. run `connect_cuatro`
+
 ## P2P Considerations
 - Ruby Code
     - Ensure that your Ruby server is listening on `0.0.0.0` instead of `localhost` or `127.0.0.1`. This will allow it to accept connections from any IP address, not just the local machine.
