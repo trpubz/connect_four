@@ -4,6 +4,6 @@ module CLI
   end
 
   def self.clear
-    system('clear')
+    system("clear")
   end
 end

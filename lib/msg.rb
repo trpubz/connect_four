@@ -9,8 +9,6 @@ module MSG
 
   BYE_MSG = "Sucka’s only see what’s in front of them while real game playa’s see the whole board, – 777\nDeuces!"
 
-  MP_BYE_MSG = "If you want to play again, rerun the script. Goodbye!"
-
   P_OR_Q_ERR_MSG = "Sorry, I didn't understand that selection. press 'p' to play; 'q' to quit:"
 
   PLAYER_TURN_MSG = "Choose where you want to drop your token"
@@ -24,6 +22,7 @@ module MSG
   def TIMES_UP_MSG(column)
     "Time's up: you randomly chose column #{column}"
   end
+
   def WAITING_FOR_PLYR_MSG(plyr_name)
     "Waiting for #{plyr_name} to make a move"
   end

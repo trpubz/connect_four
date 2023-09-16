@@ -1,20 +1,20 @@
-require_relative 'board'
-require_relative 'player'
-require_relative 'msg'
-require_relative 'cli'
+require_relative "board"
+require_relative "player"
+require_relative "msg"
+require_relative "cli"
 
 class GameEngine
   include MSG
 
   attr_reader :player1,
-              :ai,
-              :players,
-              :current_player,
-              :board,
-              :piece_count
+    :ai,
+    :players,
+    :current_player,
+    :board,
+    :piece_count
 
   def initialize
-    @player1 = Player.new(ENV['USER'], "X")
+    @player1 = Player.new(ENV["USER"], "X")
     @ai = Player.new("HAL", "O")
     @players = [@player1, @ai]
     @board = Board.new
@@ -58,7 +58,7 @@ class GameEngine
       end
       if @board.check_win(token_x, token_y, plyr.token)
         puts @board.display
-        puts "#{VICTORY_MSG(plyr.name)}"
+        puts VICTORY_MSG(plyr.name)
         game_over = true
       end
       if @board.board_full?
@@ -71,26 +71,25 @@ class GameEngine
 
   def valid_input(column)
     idx = @board.column_to_index(column)
-    if Board::COLUMNS.include?(column) && @board.board[0][idx] == '.'
-      return true
+    if Board::COLUMNS.include?(column) && @board.board[0][idx] == "."
+      true
     else
-      return false
+      false
     end
   end
 
   # returns player object and increments queue
   def whose_turn
     plyr = @current_player
-    if plyr == @players[0]
-      @current_player = @players[1]
+    @current_player = if plyr == @players[0]
+      @players[1]
     else
-      @current_player = @players[0]
+      @players[0]
     end
-    return plyr
+    plyr
   end
 
   def drop_token(column, token)
-    idx = @board.column_to_index(column)
     @board.drop_token(column, token)
   end
 end

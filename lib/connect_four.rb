@@ -1,11 +1,12 @@
 # frozen_string_literal: true
-require_relative 'game_engine'
-require_relative 'multiplayer_game_engine'
-require_relative 'msg'
-require_relative 'ip_config'
+require_relative "game_engine"
+require_relative "multiplayer_game_engine"
+require_relative "msg"
+require_relative "ip_config"
 
 class ConnectFour
-  include MSG, IP_CONFIG
+  include IpConfig
+  include MSG
 
   attr_reader :game_engine
 
@@ -28,37 +29,31 @@ class ConnectFour
     end
   end
 
-  #returns game engine MP or SP
+  # returns game engine MP or SP
   def set_game_engine
     puts ONEPLAYER_TWOPLAYER
     game_mode = CLI.get_input
     # game_mode = "2P" # testing
     if game_mode == "1P"
       @game_engine = GameEngine.new
-      self.start
     elsif game_mode == "2P"
       @game_engine = MPGameEngine.new
-      self.start
     else
       puts INPUT_ERR_MSG(game_mode)
       set_game_engine
     end
+    start
   end
 
   def start
-    if @game_engine.class == MPGameEngine
-      self.loiter  # wait in lobby
-      @game_engine.play_game
-      self.main_menu
-    else
-      @game_engine.play_game
-      self.main_menu
-    end
+    loiter if @game_engine.instance_of?(MPGameEngine)
+    @game_engine.play_game
+    main_menu
   end
 
   def loiter
     # make initial curl request
-    username = ENV['USER']
+    username = ENV["USER"]
     foe = ""
     p1 = ""
     # send /init request
@@ -79,8 +74,8 @@ class ConnectFour
 
     puts ""
     puts OPP_FOUND
-    @game_engine.player1 = Player.new(username, token = "X")
-    @game_engine.player2 = Player.new(foe, token = "O")
+    @game_engine.player1 = Player.new(username, "X")
+    @game_engine.player2 = Player.new(foe, "O")
     @game_engine.set_current_player(p1)
     print "game ready to start"
     LOADER_MSG(3)  # wait 3 seconds

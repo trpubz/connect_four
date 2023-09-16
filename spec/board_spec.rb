@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 # frozen_string_literal: true
 
@@ -17,17 +17,17 @@ describe Board do
     end
   end
 
-  describe '#animate_token' do
-    it 'animates the dropping of the token' do
+  describe "#animate_token" do
+    it "animates the dropping of the token" do
       @board.animate_token(0, 5, "X")
       @board.board[5][0] = "X"
       @board.display
     end
 
-    it 'animates when the board has other tokens' do
-      @board.board[5] = %w{X O O O . . .}
-      @board.board[4] = %w{. X O O . . .}
-      @board.board[3] = %w{. . X O . . .}
+    it "animates when the board has other tokens" do
+      @board.board[5] = %w[X O O O . . .]
+      @board.board[4] = %w[. X O O . . .]
+      @board.board[3] = %w[. . X O . . .]
       @board.animate_token(3, 2, "X")
       @board.board[2][3] = "X"
       @board.display
@@ -35,21 +35,21 @@ describe Board do
 
   end
 
-  describe '#display' do
-    it 'prints the board with col designators' do
+  describe "#display" do
+    it "prints the board with col designators" do
       @board.display
       # => visually confirm 6x7 board with '.'
     end
   end
 
-  describe '#column_to_index' do
-    it 'returns the column index selected by player' do
+  describe "#column_to_index" do
+    it "returns the column index selected by player" do
       expect(@board.column_to_index("A")).to eq(0)
     end
   end
 
-  describe '#drop_token' do
-    it 'drops token onto board' do
+  describe "#drop_token" do
+    it "drops token onto board" do
       expect(@board.board[5][0]).to eq(".")
       expect(@board.drop_token("A", "X")).to eq([0, 5])
       expect(@board.board[5][0]).to eq("X")
@@ -59,7 +59,7 @@ describe Board do
       @board.display
     end
 
-    it 'drops token onto token' do
+    it "drops token onto token" do
       @board.board[5][0] = "X"
       @board.drop_token("A", "X")
       # => visual confirmation
@@ -67,49 +67,49 @@ describe Board do
     end
   end
 
-  describe '#board_full' do
-    it 'checks to see if no more moves can be made' do
+  describe "#board_full" do
+    it "checks to see if no more moves can be made" do
       expect(@board.board_full?).to eq false
-      @board.board.map!{ |row| row.map!{ |el| el = "X" } }
+      @board.board.map!{ |row| row.map!{ |el| "X" } }
       expect(@board.board_full?).to eq true
     end
   end
 
-  describe '#check_direction' do
-    it 'checks horizontal direction' do
+  describe "#check_direction" do
+    it "checks horizontal direction" do
       @board.drop_token("B", "X")
       x, y = @board.drop_token("A", "X")
-      expect(@board.check_direction(x, y, 1, 0, 'X')).to eq 1
+      expect(@board.check_direction(x, y, 1, 0, "X")).to eq 1
     end
 
-    it 'checks from last dropped token in reverse direction' do
+    it "checks from last dropped token in reverse direction" do
       # setup
-      %w{A B C D}.each { |slot| @board.drop_token(slot, "X") }
-      expect(@board.check_direction(3, 5, -1, 0, 'X')).to eq 3
+      %w[A B C D].each { |slot| @board.drop_token(slot, "X") }
+      expect(@board.check_direction(3, 5, -1, 0, "X")).to eq 3
     end
 
-    it 'checks vertical direction up&down' do
+    it "checks vertical direction up&down" do
       4.times{@board.drop_token("A", "X")}
-      expect(@board.check_direction(0, 5, 0, 1, 'X')).to eq 3
-      expect(@board.check_direction(0, 2, 0, -1, 'X')).to eq 3
+      expect(@board.check_direction(0, 5, 0, 1, "X")).to eq 3
+      expect(@board.check_direction(0, 2, 0, -1, "X")).to eq 3
     end
 
-    it 'checks diagnal upright/downleft' do
-      @board.board[5] = %w{X O O O . . .}
-      @board.board[4] = %w{. X O O . . .}
-      @board.board[3] = %w{. . X O . . .}
-      @board.board[2] = %w{. . . X . . .}
+    it "checks diagonal upright/downleft" do
+      @board.board[5] = %w[X O O O . . .]
+      @board.board[4] = %w[. X O O . . .]
+      @board.board[3] = %w[. . X O . . .]
+      @board.board[2] = %w[. . . X . . .]
       # check from lower left traversing diagonal right
       expect(@board.check_direction(0, 5, 1, 1, "X")).to eq 3
       # check from column D to down & to left
       expect(@board.check_direction(3, 2, -1, -1, "X")).to eq 3
     end
 
-    it 'checks diagnal upleft/downright' do
-      @board.board[5] = %w{X O O O . . .}
-      @board.board[4] = %w{X X . O . . .}
-      @board.board[3] = %w{X O . O . . .}
-      @board.board[2] = %w{O . . X . . .}
+    it "checks diagonal upleft/downright" do
+      @board.board[5] = %w[X O O O . . .]
+      @board.board[4] = %w[X X . O . . .]
+      @board.board[3] = %w[X O . O . . .]
+      @board.board[2] = %w[O . . X . . .]
       # drop into column C to complete 4 connected
       x, y = @board.drop_token("C", "O")
       expect(@board.check_direction(x, y, -1, 1, "O")).to eq 2
@@ -117,41 +117,41 @@ describe Board do
     end
   end
 
-  describe '#check_win' do
-    it 'checks wins in the horizontal direction' do
+  describe "#check_win" do
+    it "checks wins in the horizontal direction" do
       x, y = nil, nil
-      %w{A B C D}.each { |slot| x, y = @board.drop_token(slot, "X") }
+      %w[A B C D].each { |slot| x, y = @board.drop_token(slot, "X") }
       expect(@board.check_win(x, y, "X")).to eq true
     end
 
-    it 'checks wins in the vertical direction' do
+    it "checks wins in the vertical direction" do
       x, y = nil, nil
       4.times{ x, y = @board.drop_token("A", "X") }
       expect(@board.check_win(x, y, "X")).to eq true
     end
 
-    it 'checks wins in the diagnoal right direction' do
-      @board.board[5] = %w{X O O O . . .}
-      @board.board[4] = %w{. X O O . . .}
-      @board.board[3] = %w{. . X O . . .}
+    it "checks wins in the diagonal right direction" do
+      @board.board[5] = %w[X O O O . . .]
+      @board.board[4] = %w[. X O O . . .]
+      @board.board[3] = %w[. . X O . . .]
       x, y = @board.drop_token("D", "X")
       expect(@board.check_win(x, y, "X")).to eq true
     end
 
-    it 'checks wins in the diagnoal left direction' do
-      @board.board[5] = %w{X O O O . . .}
-      @board.board[4] = %w{O X O O . . .}
-      @board.board[3] = %w{O O X O . . .}
-      @board.board[2] = %w{O . . . . . .}
+    it "checks wins in the diagonal left direction" do
+      @board.board[5] = %w[X O O O . . .]
+      @board.board[4] = %w[O X O O . . .]
+      @board.board[3] = %w[O O X O . . .]
+      @board.board[2] = %w[O . . . . . .]
       x, y = @board.drop_token("A", "O")
       expect(@board.check_win(x, y, "O")).to eq true
     end
 
-    it 'checks win if token dropped in middle of connection' do
-      @board.board[5] = %w{X O O O . . .}
-      @board.board[4] = %w{X X . O . . .}
-      @board.board[3] = %w{X O . O . . .}
-      @board.board[2] = %w{O . . X . . .}
+    it "checks win if token dropped in middle of connection" do
+      @board.board[5] = %w[X O O O . . .]
+      @board.board[4] = %w[X X . O . . .]
+      @board.board[3] = %w[X O . O . . .]
+      @board.board[2] = %w[O . . X . . .]
       # drop into column C to complete 4 connected
       x, y = @board.drop_token("C", "O")
       expect(@board.check_win(x, y, "O")).to eq true

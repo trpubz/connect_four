@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe GameEngine do
   before(:each) do
@@ -11,43 +11,31 @@ describe GameEngine do
     end
   end
 
-  describe '@attributes' do
-    it 'has @players and @board' do
+  describe "@attributes" do
+    it "has @players and @board" do
       expect(@game.players[0].name.length).to be >= 1
-      expect(@game.players[1].name). to eq "HAL"
+      expect(@game.players[1].name).to eq "HAL"
       expect(@game.board).to be_a Board
     end
   end
 
-  describe '#main_menu & quitting game' do
-    xit 'handles \'q\'' do
-      allow($stdin).to receive(:gets) {"q"}
-      expect(@game.main_menu).to output(MSG.BYE_MSG).to_stdout
-    end
-
-    xit 'handles bad input' do
-      allow($stdin).to receive(:gets).and_return("f", "q")
-      expect(@game.main_menu).to output(MSG.BYE_MSG).to_stdout
-    end
-  end
-
-  describe '#valid_input' do
-    it 'validates input when board is empty' do
+  describe "#valid_input" do
+    it "validates input when board is empty" do
       expect(@game.valid_input("A")).to eq true
       expect(@game.valid_input("Z")).to eq false
     end
 
-    it 'validates room for token' do
+    it "validates room for token" do
       @game.board.board.each { |r| r[0] = "X" }
       expect(@game.valid_input("A")).to eq false
     end
   end
 
-  describe '#whos_turn' do
-    it 'determines the turn' do
-      expect(@game.whos_turn).to eq @game.player1
+  describe "#whos_turn" do
+    it "determines the turn" do
+      expect(@game.whose_turn).to eq @game.player1
       expect(@game.current_player).to eq @game.ai
-      expect(@game.whos_turn).to eq @game.ai
+      expect(@game.whose_turn).to eq @game.ai
     end
   end
 end
