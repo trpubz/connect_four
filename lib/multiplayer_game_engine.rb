@@ -1,17 +1,17 @@
-require_relative 'board'
-require_relative 'player'
-require_relative 'msg'
-require_relative 'cli'
-require_relative 'ip_config'
-require 'thread'
+require_relative "board"
+require_relative "player"
+require_relative "msg"
+require_relative "cli"
+require_relative "ip_config"
 
 class MPGameEngine
-  include MSG, IP_CONFIG
+  include IpConfig
+  include MSG
 
   attr_reader :board
   attr_accessor :player1,
-                :player2,
-                :current_player
+    :player2,
+    :current_player
 
   def initialize
     @player1 = nil
@@ -25,7 +25,7 @@ class MPGameEngine
   end
 
   def set_current_player(p1)
-    @current_player = self.players.filter { |player| player.name == p1 }.first
+    @current_player = players.find { |player| player.name == p1 }
   end
 
   def play_game  # Player has hit 'p'
@@ -45,15 +45,14 @@ class MPGameEngine
           puts PLAYER_TURN_MSG
           # keep false until valid input => in-range, un-filled column
           until turn_over
-            ready = IO.select([STDIN], nil, nil, 1.6)  # 4th arg is 'release after time' (s)
+            ready = IO.select([$stdin], nil, nil, 1.6)  # 4th arg is 'release after time' (s)
 
             if ready
-              column = STDIN.gets.chomp.upcase
+              column = $stdin.gets.chomp.upcase
               if valid_input(column)
                 mutex.synchronize do
                   input_received = true
                   turn_over = true
-                  column = column
                 end
               else
                 puts INPUT_ERR_MSG(column)
@@ -66,7 +65,7 @@ class MPGameEngine
 
         timer_thread = Thread.new do
           10.times do |i|
-            print "#{10 - i }. . "
+            print "#{10 - i}. . "
             sleep 1.6
             break if mutex.synchronize { input_received }
           end
@@ -78,7 +77,6 @@ class MPGameEngine
               mutex.synchronize do
                 input_received = true
                 turn_over = true
-                column = column
               end
             end
           end
@@ -107,7 +105,7 @@ class MPGameEngine
 
       if @board.check_win(token_x, token_y, plyr.token)
         puts @board.display
-        puts "#{VICTORY_MSG(plyr.name)}"
+        puts VICTORY_MSG(plyr.name)
         game_over = true
       end
 
@@ -124,26 +122,21 @@ class MPGameEngine
 
   def valid_input(column)
     idx = @board.column_to_index(column)
-    if Board::COLUMNS.include?(column) && @board.board[0][idx] == '.'
-      true
-    else
-      false
-    end
+    Board::COLUMNS.include?(column) && @board.board[0][idx] == "."
   end
 
   # returns player object and increments queue
   def whose_turn
     plyr = @current_player
-    if plyr == players[0]
-      @current_player = players[1]
+    @current_player = if plyr == players[0]
+      players[1]
     else
-      @current_player = players[0]
+      players[0]
     end
     plyr
   end
 
   def drop_token(column, token)
-    idx = @board.column_to_index(column)
     @board.drop_token(column, token)
   end
 end

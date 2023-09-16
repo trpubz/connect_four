@@ -1,5 +1,5 @@
 # Library that contains TCPServer
-require 'socket'
+require "socket"
 
 # global variables
 player1 = nil
@@ -10,7 +10,7 @@ column = nil
 ready_to_begin = false
 
 # Create a new instance of TCPServer on Port 3333
-server = TCPServer.new('0.0.0.0', 3333)
+server = TCPServer.new("0.0.0.0", 3333)
 
 def params(request, key)
   path = request.split[1]
@@ -22,7 +22,11 @@ def send_response(connection, output)
   # require 'byebug'; byebug
   # Generate the Response
   puts "Sending response."
-  status = "http/1.1 200 ok"
+  status = if output == "bad request"
+    "http/1.1 400 bad request"
+  else
+    "http/1.1 200 ok"
+  end
   response = status + "\r\n\r\n" + output
   # Send the Response
   puts response
@@ -32,13 +36,14 @@ end
 loop do
   # Wait for a Request
   # When a request comes in, save the connection to a variable
-  puts 'Waiting for Request...'
+  puts "Waiting for Request..."
   connection = server.accept
   # Read the request line by line until we have read every line
   puts "Got this Request:"
-  request_lines = []
   line = connection.gets.chomp
-  while !line.empty?
+  request_lines = []
+
+  until line.empty?
     request_lines << line
     line = connection.gets.chomp
   end
@@ -48,22 +53,21 @@ loop do
 
   # Extract the parameter if the Request included a guess
   request_line = request_lines[0]
-  # require 'byebug'; byebug
+
   case
-  when request_line.include?('/init')
+  when request_line.include?("/init")
     plyr = params(request_line, "player")
     if player1 == nil
       player1 = plyr
       players << player1
-      send_response(connection, "you need to be patient")
     else
       player2 = plyr
       players << player2
       ready_to_begin = true
-      send_response(connection, "you need to be patient")
     end
+    send_response(connection, "you need to be patient")
 
-  when request_line.include?('/start')
+  when request_line.include?("/start")
     requester = params(request_line, "player")
     if ready_to_begin
       # require 'pry'; binding.pry
@@ -73,27 +77,30 @@ loop do
       send_response(connection, "patience please")
     end
 
-  when request_line.include?('/move')
+  when request_line.include?("/move")
     # request in format <IP:PORT>/move?player=player?column=column
-    active_player = params(request_line, "player").split('?')[0]
+    active_player = params(request_line, "player").split("?")[0]
     column = params(request_line, "column")
     send_response(connection, "good move young padawan")
 
-  when request_line.include?('/status')
+  when request_line.include?("/status")
     requester = params(request_line, "player")
-    if requester != active_player && active_player != nil
-      send_response(connection, "#{column}")
+    if requester != active_player && !active_player.nil?
+      send_response(connection, column.to_s)
     else
       send_response(connection, "patience please")
     end
 
-  when request_line.include?('/reset')
+  when request_line.include?("/reset")
     player1 = nil
     player2 = nil
     players = []
     active_player = nil
     column = nil
     ready_to_begin = false
+
+  else
+    send_response(connection, "bad request")
   end
 
   # close the connection

@@ -7,7 +7,7 @@ class Board
     # board 'width'
     @num_columns = columns
     # Initialize an empty board filled with '.'
-    @board = Array.new(@num_rows) { Array.new(@num_columns, '.') }
+    @board = Array.new(@num_rows) { Array.new(@num_columns, ".") }
   end
 
   # return x, y coordinates
@@ -17,7 +17,7 @@ class Board
     @board.reverse_each do |row|
       if row[col_idx] == "."
         # animate dropping of token before return
-        self.animate_token(col_idx, row_idx, token)
+        animate_token(col_idx, row_idx, token)
         row[col_idx] = token
         return col_idx, row_idx
       end
@@ -27,19 +27,19 @@ class Board
 
   def animate_token(col_idx, row_idx, token)
     row_idx.times do |i|
-      sleep 0.77
+      sleep 0.26
       CLI.clear
       @board.each_with_index do |row, idx|
         pseudo_row = row.dup
         if idx == i
           pseudo_row[col_idx] = token
-          puts pseudo_row.join(' ')
+          puts pseudo_row.join(" ")
         else
-          puts row.join(' ')
+          puts row.join(" ")
         end
       end
       # Print column numbers for easier reference
-      puts COLUMNS[0...@num_columns].join(' ')
+      puts COLUMNS[0...@num_columns].join(" ")
     end
     sleep 0.77
     CLI.clear
@@ -48,10 +48,10 @@ class Board
   def display
     # Loop through each row and print it
     @board.each do |row|
-      puts row.join(' ')
+      puts row.join(" ")
     end
     # Print column numbers for easier reference
-    puts COLUMNS[0...@num_columns].join(' ')
+    puts COLUMNS[0...@num_columns].join(" ")
   end
 
   def column_to_index(column)
@@ -90,7 +90,7 @@ class Board
   end
 
 
-  COLUMNS = %w{A B C D E F G}
+  COLUMNS = %w[A B C D E F G]
 
   DIRECTIONS = [
     [0, 1],  # Horizontal
